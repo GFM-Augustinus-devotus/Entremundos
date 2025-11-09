@@ -1,0 +1,1 @@
+Modelo de CRM que junta painel de conversa dos agentes, funil de leads e sistemas de agendamentos para os usuários

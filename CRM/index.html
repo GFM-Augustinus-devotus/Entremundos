@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Entremundos CRM</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script defer src="js/script.js"></script>
+</head>
+<body>
+    <div class="app">
+        <aside class="sidebar">
+            <div class="brand">
+                <div class="logo">EM</div>
+                <h1>Entremundos</h1>
+            </div>
+            <nav class="menu">
+                <ul>
+                    <li class="menu-item active" data-target="painel">Painel</li>
+                    <li class="menu-item" data-target="leads">Leads</li>
+                    <li class="menu-item" data-target="chats">Chats</li>
+                    <li class="menu-item" data-target="calendario">Calendário</li>
+                    <li class="menu-item" data-target="config">Configurações</li>
+                </ul>
+            </nav>
+            <div class="palette">
+                <div class="color" style="background:#5F94D9" data-color="#5F94D9"></div>
+                <div class="color" style="background:#6B90BF" data-color="#6B90BF"></div>
+                <div class="color" style="background:#7A9FBF" data-color="#7A9FBF"></div>
+                <div class="color" style="background:#594834" data-color="#594834"></div>
+                <div class="color" style="background:#A68863" data-color="#A68863"></div>
+            </div>
+        </aside>
+
+        <main class="main">
+            <header class="topbar">
+                <div class="top-left">
+                    <h2 id="page-title">Painel</h2>
+                </div>
+                <div class="top-right">
+                    <input id="global-search" placeholder="Pesquisar leads, chats..." />
+                </div>
+            </header>
+
+            <section class="content">
+                <section class="view" id="painel" aria-hidden="false">
+                    <div class="cards" id="dashboard-widgets">
+                        <div class="widget card" draggable="true">Visão Geral
+                            <div class="widget-body">Receitas, Atividades, Eventos</div>
+                        </div>
+                        <div class="widget card" draggable="true">Tarefas
+                            <div class="widget-body">Arraste para reorganizar</div>
+                        </div>
+                        <div class="widget card" draggable="true">Atendimentos
+                            <div class="widget-body">Chats abertos</div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="view" id="leads" aria-hidden="true">
+                    <div class="panel">
+                        <form id="lead-form" class="form-inline">
+                            <input type="text" id="lead-name" placeholder="Nome do lead" required />
+                            <input type="email" id="lead-email" placeholder="Email" />
+                            <button type="submit" class="btn primary">Adicionar Lead</button>
+                        </form>
+
+                        <div id="leads-list" class="list"></div>
+                    </div>
+                </section>
+
+                <section class="view" id="chats" aria-hidden="true">
+                    <div class="chat-panel">
+                        <div id="chat-list" class="chat-list">
+                            <div class="chat-empty">Nenhuma conversa selecionada. Clique em um contato para começar.</div>
+                        </div>
+                        <div class="chat-compose">
+                            <input id="chat-to" placeholder="Para: nome ou email" />
+                            <div id="chat-messages" class="chat-messages"></div>
+                            <div class="chat-controls">
+                                <input id="chat-input" placeholder="Escreva uma mensagem" />
+                                <button id="chat-send" class="btn">Enviar</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="view" id="calendario" aria-hidden="true">
+                    <div class="calendar-panel">
+                        <form id="event-form" class="form-inline">
+                            <input type="date" id="event-date" required />
+                            <input type="text" id="event-title" placeholder="Título do evento" required />
+                            <button type="submit" class="btn primary">Adicionar Evento</button>
+                        </form>
+                        <ul id="events-list" class="events-list"></ul>
+                    </div>
+                </section>
+
+                <section class="view" id="config" aria-hidden="true">
+                    <div class="config-panel">
+                        <h3>Preferências</h3>
+                        <label class="toggle">
+                            <span>Notificações</span>
+                            <input type="checkbox" id="toggle-notifs" checked />
+                            <span class="slider"></span>
+                        </label>
+
+                        <h4>Perfil</h4>
+                        <div class="profile-edit">
+                            <input id="profile-name" placeholder="Nome" />
+                            <input id="profile-email" placeholder="Email" />
+                            <button id="save-profile" class="btn primary">Salvar</button>
+                        </div>
+                    </div>
+                </section>
+            </section>
+        </main>
+    </div>
+
+</body>
+</html>

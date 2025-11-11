@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Entrar - Medicina CRM</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script defer></script>
+    <style>
+        html,body{height:100%;margin:0}
+    </style>
+</head>
+<body class="login-page">
+    <main class="login-container">
+        <div class="login-brand">
+            <div class="logo">MC</div>
+            <h1>Medicina CRM</h1>
+        </div>
+
+        <section class="login-card">
+            <div class="login-head">
+                <h2>Entrar</h2>
+            </div>
+
+            <form id="login-form" class="login-form" novalidate>
+                <input type="text" id="user" name="user" placeholder="Login" required />
+                <input type="password" id="password" name="password" placeholder="Senha" required />
+
+                <div class="login-row">
+                    <label class="checkbox">
+                        <input type="checkbox" id="remember" />
+                        <span>Lembrar-me</span>
+                    </label>
+                    <a class="forgot" href="#">Esqueceu a senha?</a>
+                </div>
+
+                <button type="submit" class="btn login-btn">Entrar</button>
+            </form>
+        </section>
+
+        <footer class="login-footer">© 2025 Medicina CRM</footer>
+    </main>
+
+    <script>
+        // Comportamento mínimo para demo: prevenir submit e redirecionar para index
+        document.getElementById('login-form').addEventListener('submit', function(e){
+            e.preventDefault();
+            // aqui você pode adicionar validação real / chamada ao servidor
+            window.location.href = 'index.html';
+        });
+    </script>
+</body>
+</html>

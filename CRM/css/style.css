@@ -1,16 +1,16 @@
 .app{display:flex;height:100vh;font-family:Segoe UI, Roboto, Arial, sans-serif;background:#f5f7fb;color:#000}
 
 :root{
-	--primary:#5F94D9;
-	--primary-2:#6B90BF;
-	--accent:#7A9FBF;
-	--brown:#594834;
-	--tan:#A68863;
-	--black:#000000;
+	--primary:#2868c6;
+	--primary-2:#91d2f4;
+	--accent:#9649d1;
+	--brown:#1c1e57;
+	--tan:#0a1c3d;
+	--black:#101c29;
 	--white:#ffffff;
 }
 
-.sidebar{width:220px;background:linear-gradient(180deg,var(--primary),var(--primary-2));color:var(--white);padding:20px;box-sizing:border-box;display:flex;flex-direction:column;justify-content:space-between}
+.sidebar{width:220px;background:linear-gradient(180deg,var(--primary),var(--accent));color:var(--white);padding:20px;box-sizing:border-box;display:flex;flex-direction:column;justify-content:space-between}
 .brand{display:flex;align-items:center;gap:10px}
 .logo{width:44px;height:44px;border-radius:8px;background:var(--white);color:var(--primary);display:flex;align-items:center;justify-content:center;font-weight:700}
 .brand h1{font-size:1rem;margin:0}
@@ -66,7 +66,39 @@
 .toggle input:checked + .slider{background:var(--primary)}
 .toggle input:checked + .slider::after{transform:translateX(18px)}
 
-/* small helpers */
 .hidden{display:none}
 
 @media (max-width:900px){.sidebar{display:none}.topbar input{min-width:120px}}
+
+.login-page{display:flex;align-items:center;justify-content:center;height:100vh;background:linear-gradient(180deg,var(--primary),var(--accent));color:var(--white);}
+.login-container{width:100%;max-width:520px;padding:28px;box-sizing:border-box;display:flex;flex-direction:column;align-items:center;gap:18px}
+.login-brand{display:flex;align-items:center;gap:12px;color:var(--white);margin-bottom:4px}
+.login-brand .logo{width:48px;height:48px;border-radius:10px;background:var(--white);color:var(--primary);display:flex;align-items:center;justify-content:center;font-weight:700}
+.login-card{background:rgba(255,255,255,0.06);backdrop-filter:blur(6px);padding:26px;border-radius:12px;box-shadow:0 10px 30px rgba(2,10,20,0.4);width:100%;max-width:420px;color:var(--white);border:1px solid rgba(255,255,255,0.04)}
+.login-head{display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center;margin-bottom:12px}
+.login-head .brand-mark{width:64px;height:64px;border-radius:50%;background:linear-gradient(180deg,#1bd98f,#00c47a);display:flex;align-items:center;justify-content:center;font-weight:700;color:#052017;font-size:20px;box-shadow:0 8px 24px rgba(4,22,18,0.35)}
+.login-head h2{margin:6px 0 0 0}
+.login-head p{margin:0;font-size:.95rem;color:rgba(255,255,255,0.8)}
+.login-form{display:flex;flex-direction:column;gap:10px}
+.login-form input{padding:12px 14px;border-radius:8px;border:1px solid rgba(255,255,255,0.08);background:rgba(255,255,255,0.03);color:var(--white);outline:none}
+.login-form input::placeholder{color:rgba(255,255,255,0.6)}
+.login-row{display:flex;align-items:center;justify-content:space-between;margin-top:4px}
+.login-row .checkbox{display:flex;align-items:center;gap:8px;color:rgba(255,255,255,0.9);cursor:pointer}
+.login-row .checkbox input{width:14px;height:14px}
+.login-row .forgot{color:rgba(255,255,255,0.85);text-decoration:none;font-size:.9rem}
+.login-row .forgot:hover{text-decoration:underline}
+.login-btn{padding:12px;border-radius:24px;background:linear-gradient(90deg,var(--brown),var(--tan));color:var(--white);font-weight:700;border:0;cursor:pointer;box-shadow:0 8px 18px rgba(29,190,120,0.18);transition:background .18s ease,color .18s ease,transform .12s ease,box-shadow .18s ease}
+.login-btn:active{transform:translateY(1px)}
+
+.login-btn:hover,
+.login-btn:focus-visible{
+	/* altera para a cor primária do tema quando hover ou foco via teclado */
+	background: linear-gradient(90deg,var(--primary),var(--primary-2));
+	color: var(--white);
+	box-shadow: 0 12px 28px rgba(40,104,198,0.18);
+	transform: translateY(-2px);
+	outline: none;
+}
+.login-footer{font-size:.85rem;color:rgba(255,255,255,0.6);margin-top:6px}
+
+@media (max-width:520px){.login-container{padding:18px}.login-card{padding:18px}.login-head .brand-mark{width:54px;height:54px}}

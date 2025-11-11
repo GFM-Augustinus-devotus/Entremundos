@@ -1,0 +1,13 @@
+{
+  "name": "chatwoot-proxy",
+  "version": "1.0.0",
+  "main": "chatwoot-proxy.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node chatwoot-proxy.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.19.2"
+  }
+}

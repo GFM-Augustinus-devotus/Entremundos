@@ -1,0 +1,29 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Chatwoot Proxy",
+      "program": "${workspaceFolder}/CRM/chatwoot-proxy.js",
+      "cwd": "${workspaceFolder}/CRM",
+      "skipFiles": ["<node_internals>/**"],
+      "console": "integratedTerminal"
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Script",
+      "program": "${workspaceFolder}/CRM/js/script.js",
+      "cwd": "${workspaceFolder}/CRM",
+      "skipFiles": ["<node_internals>/**"],
+      "console": "integratedTerminal"
+    }
+  ],
+  "compounds": [
+    {
+      "name": "Start both (Proxy + Script)",
+      "configurations": ["Chatwoot Proxy", "Script"]
+    }
+  ]
+}

@@ -1,39 +1,88 @@
+
 const express = require('express');
 const cors = require('cors');
+const fetch = require('node-fetch');
+require('dotenv').config();
 
 const app = express();
 const PORT = process.env.PORT || 3001;
-const CHATWOOT_BASE_URL = process.env.CHATWOOT_BASE_URL;
-const CHATWOOT_ACCOUNT_ID = process.env.CHATWOOT_ACCOUNT_ID;
-const CHATWOOT_TOKEN = process.env.CHATWOOT_TOKEN;
+const BASE = (process.env.CHATWOOT_BASE_URL || 'https://app.chatwoot.com').replace(/\/$/, '');
+const ACCOUNT = process.env.CHATWOOT_ACCOUNT_ID || '1';
+const TOKEN = process.env.CHATWOOT_TOKEN || '';
 
-// *** NOVO: servir arquivos estáticos da pasta /public
-app.use(express.static('public'));
-
-if (!CHATWOOT_ACCOUNT_ID || !CHATWOOT_TOKEN) {
-  console.error('Defina CHATWOOT_ACCOUNT_ID e CHATWOOT_TOKEN nas variáveis de ambiente.');
-  process.exit(1);
+if (!TOKEN) {
+  console.error('[chatwoot-proxy] Aviso: CHATWOOT_TOKEN não definido ou vazio. Algumas rotas podem falhar.');
 }
 
 app.use(cors());
+app.use(express.json());
+app.use(express.static('public'));
 
+const apiHeaders = {
+  'api_access_token': TOKEN,
+  'Accept': 'application/json'
+};
+
+// Rota: contatos
 app.get('/api/chatwoot/contacts', async (req, res) => {
   try {
-    const page = req.query.page || 1; // suporte a paginação básica
-    const url = `${CHATWOOT_BASE_URL}/api/v1/accounts/${CHATWOOT_ACCOUNT_ID}/contacts?page=${page}`;
-    const response = await fetch(url, { headers: { 'api_access_token': CHATWOOT_TOKEN } });
-
-    if (!response.ok) {
-      const text = await response.text().catch(() => '');
-      return res.status(response.status).json({ error: 'Erro ao buscar contatos do Chatwoot', details: text });
+    const page = req.query.page || 1;
+    const url = `${BASE}/api/v1/accounts/${ACCOUNT}/contacts?page=${page}`;
+    const r = await fetch(url, { headers: apiHeaders });
+    if (!r.ok) {
+      const text = await r.text().catch(() => '');
+      return res.status(r.status).json({ error: 'Erro ao buscar contatos do Chatwoot', details: text });
     }
-    const data = await response.json();
+    const data = await r.json();
     res.json(data);
   } catch (err) {
     res.status(500).json({ error: 'Erro interno ao buscar contatos', details: String(err) });
   }
 });
 
+// Rota: conversas (note o plural — corresponde ao cliente)
+app.get('/api/chatwoot/conversations', async (req, res) => {
+  try {
+    // parâmetros aceitos: status, assignee_type, inbox_id, page
+    const { status, assignee_type, inbox_id, page } = req.query;
+    const params = new URLSearchParams();
+    if (status) params.set('status', status);
+    if (assignee_type) params.set('assignee_type', assignee_type);
+    if (inbox_id) params.set('inbox_id', inbox_id);
+    if (page) params.set('page', page);
+
+    const qs = params.toString();
+    const url = `${BASE}/api/v1/accounts/${ACCOUNT}/conversations${qs ? `?${qs}` : ''}`;
+
+    const r = await fetch(url, { headers: apiHeaders });
+    if (!r.ok) {
+      const text = await r.text().catch(() => '');
+      return res.status(r.status).json({ error: 'Erro ao buscar conversas no Chatwoot', status: r.status, details: text, url });
+    }
+    const data = await r.json();
+    res.json(data);
+  } catch (err) {
+    res.status(500).json({ error: 'Erro interno ao buscar conversas', details: String(err) });
+  }
+});
+
+// Rota: inboxes
+app.get('/api/chatwoot/inboxes', async (req, res) => {
+  try {
+    const url = `${BASE}/api/v1/accounts/${ACCOUNT}/inboxes`;
+    const r = await fetch(url, { headers: apiHeaders });
+    if (!r.ok) {
+      const text = await r.text().catch(() => '');
+      return res.status(r.status).json({ error: 'Erro ao buscar inboxes', details: text });
+    }
+    const data = await r.json();
+    res.json(data);
+  } catch (err) {
+    res.status(500).json({ error: 'Erro interno ao buscar inboxes', details: String(err) });
+  }
+});
+
+// Inicia o servidor (uma única vez)
 app.listen(PORT, () => {
-  console.log(`Servidor proxy rodando em http://localhost:${PORT}`);
+  console.log(`[chatwoot-proxy] Servidor rodando em http://localhost:${PORT}`);
 });

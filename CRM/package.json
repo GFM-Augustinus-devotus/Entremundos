@@ -4,10 +4,18 @@
   "main": "chatwoot-proxy.js",
   "type": "commonjs",
   "scripts": {
-    "start": "node chatwoot-proxy.js"
+    "start": "node chatwoot-proxy.js",
+    "serve": "http-server . -p 5500 -c-1",
+    "dev": "concurrently \"npm:start\" \"npm:serve\"",
+    "debug:chrome": "start chrome --remote-debugging-port=9222 http://localhost:5500/index.html"
   },
   "dependencies": {
     "cors": "^2.8.5",
-    "express": "^4.19.2"
+    "express": "^4.19.2",
+    "node-fetch": "^2.6.7"
+  },
+  "devDependencies": {
+    "http-server": "^0.12.3",
+    "concurrently": "^7.6.0"
   }
 }

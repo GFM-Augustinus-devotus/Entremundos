@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Medicina CRM</title>
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/leads.css">
     <script defer src="js/script.js"></script>
     <style>
         html,body{height:100%;margin:0}
@@ -21,7 +22,7 @@
                 <ul class="menu-top">
                     <li class="menu-item active" data-target="painel" tabindex="0" role="button">Painel</li>
                     <li class="menu-item" data-target="leads" tabindex="0" role="button" id="load-chatwoot-leads">Leads</li>
-                    <li class="menu-item" data-target="chats" tabindex="0" role="button">Chats</li>
+                    <li class="menu-item" data-target="chats" tabindex="0" role="button" id="load-chatwoot-chats" >Chats</li>
                     <li class="menu-item" data-target="calendario" tabindex="0" role="button">Calendário</li>
                 </ul>
                 <ul class="menu-bottom">
@@ -47,7 +48,7 @@
 
                 <section class="view" id="chats" aria-hidden="true">
                     <div>
-
+                        <ul id="chatwoot-chats-list"></ul>
                     </div>                    
                 </section>
 

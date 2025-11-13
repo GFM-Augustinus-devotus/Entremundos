@@ -63,7 +63,6 @@ document.addEventListener('DOMContentLoaded', () => {
 	loadChatsBtn.addEventListener('click', async () => {
 		chatsInboxes.innerHTML = '';
 		try {
-		// peça conversas sem restringir por atribuição e com status amplo
 		const url = 'http://localhost:3001/api/chatwoot/conversations?status=all&assignee_type=all&page=1';
 		const response = await fetch(url);
 		console.log('GET /conversations ->', response.status);
@@ -82,8 +81,11 @@ document.addEventListener('DOMContentLoaded', () => {
 			return;
 		}
 
+		// renderiza cada conversa
 		list.forEach(conv => {
 			const li = document.createElement('li');
+			li.classList.add('chat-item');
+
 			const contactName =
 			conv?.meta?.sender?.name ||
 			conv?.meta?.sender?.identifier ||
@@ -92,17 +94,61 @@ document.addEventListener('DOMContentLoaded', () => {
 
 			const status = conv?.status || conv?.state || '—';
 			li.textContent = `${contactName} • conversa #${conv.id} • ${status}`;
+
+			// quando clicar, carrega as mensagens
+			li.addEventListener('click', async () => {
+			await carregarMensagens(conv.id, li);
+			});
+
 			chatsInboxes.appendChild(li);
 		});
 
-	} catch (e) {
-	console.error('Erro ao carregar conversas:', e);
-	const li = document.createElement('li');
-	// se o erro for um objeto com message, use-o; caso contrário, stringify
-	li.textContent = 'Erro ao carregar as conversas com os usuários' + (e && e.message ? ': ' + e.message : '');
-	chatsInboxes.appendChild(li);
-	}
+		} catch (e) {
+		console.error('Erro ao carregar conversas:', e);
+		const li = document.createElement('li');
+		li.textContent = 'Erro ao carregar as conversas com os usuários' + (e && e.message ? ': ' + e.message : '');
+		chatsInboxes.appendChild(li);
+		}
 	});
+	}
+
+	// função auxiliar: busca e mostra as mensagens
+	async function carregarMensagens(conversationId, liElement) {
+	try {
+		const resp = await fetch(`http://localhost:3001/api/chatwoot/conversations/${conversationId}/messages`);
+		const data = await resp.json();
+		console.log('Mensagens da conversa', conversationId, data);
+
+		// limpa mensagens anteriores (se houver)
+		const oldMsgs = liElement.querySelector('.messages');
+		if (oldMsgs) oldMsgs.remove();
+
+		const msgsContainer = document.createElement('ul');
+		msgsContainer.classList.add('messages');
+
+		const mensagens = data.payload || data.data || [];
+
+		if (!mensagens.length) {
+		const msgLi = document.createElement('li');
+		msgLi.textContent = 'Nenhuma mensagem nesta conversa.';
+		msgsContainer.appendChild(msgLi);
+		} else {
+		mensagens.forEach(m => {
+			const msgLi = document.createElement('li');
+			const from = m.sender?.name || (m.message_type === 1 ? 'Contato' : 'Agente');
+			msgLi.textContent = `${from}: ${m.content}`;
+			msgsContainer.appendChild(msgLi);
+		});
+		}
+
+		liElement.appendChild(msgsContainer);
+
+	} catch (err) {
+		console.error('Erro ao buscar mensagens:', err);
+		const errLi = document.createElement('li');
+		errLi.textContent = 'Erro ao carregar mensagens.';
+		liElement.appendChild(errLi);
+	}
 	}
 
 

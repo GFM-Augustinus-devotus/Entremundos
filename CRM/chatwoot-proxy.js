@@ -40,45 +40,32 @@ app.get('/api/chatwoot/contacts', async (req, res) => {
   }
 });
 
-// Rota: conversas (note o plural — corresponde ao cliente)
-app.get('/api/chatwoot/conversations', async (req, res) => {
+// Rota: mensagens de uma conversa específica
+app.get('/api/chatwoot/conversations/:id/messages', async (req, res) => {
   try {
-    // parâmetros aceitos: status, assignee_type, inbox_id, page
-    const { status, assignee_type, inbox_id, page } = req.query;
-    const params = new URLSearchParams();
-    if (status) params.set('status', status);
-    if (assignee_type) params.set('assignee_type', assignee_type);
-    if (inbox_id) params.set('inbox_id', inbox_id);
-    if (page) params.set('page', page);
+    const { id } = req.params;
+    const url2 = `${BASE}/api/v1/accounts/${ACCOUNT}/conversations/${id}/messages`;
 
-    const qs = params.toString();
-    const url = `${BASE}/api/v1/accounts/${ACCOUNT}/conversations${qs ? `?${qs}` : ''}`;
+    console.log(`[chatwoot-proxy] Buscando mensagens da conversa ${id}:`, url2);
 
-    const r = await fetch(url, { headers: apiHeaders });
+    const r = await fetch(url2, { headers: apiHeaders });
     if (!r.ok) {
       const text = await r.text().catch(() => '');
-      return res.status(r.status).json({ error: 'Erro ao buscar conversas no Chatwoot', status: r.status, details: text, url });
+      return res.status(r.status).json({ 
+        error: 'Erro ao buscar mensagens da conversa', 
+        status: r.status, 
+        details: text, 
+        url: url2 
+      });
     }
-    const data = await r.json();
-    res.json(data);
-  } catch (err) {
-    res.status(500).json({ error: 'Erro interno ao buscar conversas', details: String(err) });
-  }
-});
 
-// Rota: inboxes
-app.get('/api/chatwoot/inboxes', async (req, res) => {
-  try {
-    const url = `${BASE}/api/v1/accounts/${ACCOUNT}/inboxes`;
-    const r = await fetch(url, { headers: apiHeaders });
-    if (!r.ok) {
-      const text = await r.text().catch(() => '');
-      return res.status(r.status).json({ error: 'Erro ao buscar inboxes', details: text });
-    }
     const data = await r.json();
-    res.json(data);
+    res.json(data); 
   } catch (err) {
-    res.status(500).json({ error: 'Erro interno ao buscar inboxes', details: String(err) });
+    res.status(500).json({ 
+      error: 'Erro interno ao buscar mensagens', 
+      details: String(err) 
+    });
   }
 });
 

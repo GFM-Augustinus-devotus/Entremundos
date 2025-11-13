@@ -11,11 +11,16 @@
   },
   "dependencies": {
     "cors": "^2.8.5",
-    "express": "^4.19.2",
-    "node-fetch": "^2.6.7"
+    "dotenv": "^17.2.3",
+    "express": "^4.21.2",
+    "node-fetch": "^2.7.0"
   },
   "devDependencies": {
-    "http-server": "^0.12.3",
-    "concurrently": "^7.6.0"
-  }
+    "concurrently": "^7.6.0",
+    "http-server": "^0.12.3"
+  },
+  "description": "",
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
 }

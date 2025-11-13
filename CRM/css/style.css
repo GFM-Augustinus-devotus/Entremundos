@@ -108,3 +108,18 @@
 .login-footer{font-size:.85rem;color:rgba(255,255,255,0.6);margin-top:6px}
 
 @media (max-width:520px){.login-container{padding:18px}.login-card{padding:18px}.login-head .brand-mark{width:54px;height:54px}}
+
+.chat-item {
+  cursor: pointer;
+  margin-bottom: 8px;
+}
+
+.chat-item .messages {
+  margin-top: 6px;
+  margin-left: 20px;
+  list-style: none;
+  padding-left: 0;
+  color: #444;
+  font-size: 0.9em;
+}
+
